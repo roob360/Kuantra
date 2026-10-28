@@ -1,7 +1,7 @@
 // Menghubungkan hasil Unduh.muatRilis ke tombol di index.html dan menyalakan gerak masuk. Tanpa JavaScript halaman tetap utuh:
 // tombol menaut ke halaman rilis terbaru dan semua bagian terlihat.
 // Alamat halaman donasi (Saweria atau Trakteer). Kosong = tautan tidak ditampilkan. Isi dengan alamat profil, mis. 'https://saweria.co/nama'.
-const DONASI_URL = '';
+const DONASI_URL = 'https://saweria.co/roob';
 
 (async () => {
   const $ = (id) => document.getElementById(id);
