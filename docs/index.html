@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src https://api.github.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="color-scheme" content="light dark">
+<title>Kuantra: kuantitas struktur beton yang dapat ditelusuri</title>
+<meta name="description" content="Kuantra menghitung beton, bekisting, dan pembesian dari model Revit atau gambar Anda sendiri. Setiap angka dapat ditelusuri sampai ke elemen dan aturannya. Gratis untuk Windows.">
+<style>
+:root{
+  --latar:#fbfbfd;--latar2:#f5f5f7;--kartu:#fff;--teks:#1d1d1f;--redup:#6e6e73;--garis:rgba(0,0,0,.1);
+  --aksen:#0066cc;--aksen-teks:#fff;--sorot:#0071e3;--bayang:0 30px 80px -20px rgba(0,20,60,.28),0 12px 28px -12px rgba(0,20,60,.18);
+  --kaca:rgba(251,251,253,.78);--hijau:#2e7d32;--biru-muda:#56b4e9;--abu:#9aa3ad;
+}
+@media (prefers-color-scheme:dark){:root{
+  --latar:#000;--latar2:#0b0b0d;--kartu:#161618;--teks:#f5f5f7;--redup:#a1a1a6;--garis:rgba(255,255,255,.14);
+  --aksen:#2997ff;--aksen-teks:#000;--sorot:#2997ff;--bayang:0 30px 80px -20px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.06);
+  --kaca:rgba(0,0,0,.72);
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--latar);color:var(--teks);font:17px/1.6 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:var(--aksen);text-decoration:none}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--sorot);outline-offset:3px;border-radius:8px}
+.lebar{max-width:1120px;margin:0 auto;padding:0 24px}
+.sempit{max-width:760px;margin:0 auto;padding:0 24px}
+
+/* navigasi kaca */
+nav.atas{position:sticky;top:0;z-index:20;background:var(--kaca);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--garis)}
+nav.atas .lebar{display:flex;align-items:center;height:56px;gap:28px}
+.merek{display:flex;align-items:center;gap:10px;color:var(--teks);font-weight:600;font-size:18px;letter-spacing:-.01em}
+.lencana{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:var(--aksen);color:var(--aksen-teks);font-size:16px;font-weight:700}
+nav.atas ul{display:flex;gap:26px;list-style:none;margin:0 0 0 auto;padding:0}
+nav.atas ul a{color:var(--teks);font-size:14px;opacity:.8}nav.atas ul a:hover{opacity:1}
+.nav-unduh{display:inline-flex;align-items:center;min-height:32px;padding:0 14px;border-radius:999px;background:var(--aksen);color:var(--aksen-teks)!important;font-size:13px;font-weight:600;opacity:1!important}
+
+/* hero */
+.hero{position:relative;text-align:center;padding:88px 0 0;overflow-x:clip}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto -10%;height:640px;background:radial-gradient(60% 60% at 50% 0%,color-mix(in srgb,var(--aksen) 14%,transparent),transparent 70%);pointer-events:none}
+.eyebrow{display:inline-block;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--aksen);margin:0 0 18px}
+h1{text-wrap:balance;font-size:clamp(40px,7.4vw,84px);line-height:1.03;letter-spacing:-.035em;font-weight:700;margin:0 auto 22px;max-width:15ch}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--aksen),#5ac8fa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:clamp(19px,2.4vw,26px);line-height:1.38;color:var(--redup);max-width:700px;margin:0 auto 18px;font-weight:400}
+.hero-meta{font-size:14px;color:var(--redup);margin:0 0 56px}
+.hero-meta a{font-weight:500}
+.panggung{position:relative;max-width:1080px;margin:0 auto;padding:0 24px;perspective:1800px}
+.jendela{border-radius:14px;overflow:hidden;background:var(--kartu);box-shadow:var(--bayang);border:1px solid var(--garis)}
+.jendela img{width:100%}
+.jendela .bilah{display:flex;gap:7px;padding:11px 14px;background:var(--latar2);border-bottom:1px solid var(--garis)}
+.jendela .bilah i{width:11px;height:11px;border-radius:50%;background:var(--garis)}
+.utama{transform:rotateX(5deg) translateZ(0);transform-origin:50% 0}
+.melayang{position:absolute;width:42%;z-index:2}
+.melayang.kiri{left:0;bottom:-8%;transform:rotate(-2.5deg)}
+.melayang.kanan{right:0;bottom:-14%;width:38%;transform:rotate(2deg)}
+.pudar-bawah{position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(to bottom,transparent,var(--latar));pointer-events:none;z-index:1}
+
+/* jalur fakta */
+.fakta{padding:170px 0 72px}
+.fakta ul{display:grid;grid-template-columns:repeat(4,1fr);gap:0;list-style:none;margin:0;padding:0;border:1px solid var(--garis);border-radius:20px;background:var(--kartu);overflow:hidden}
+.fakta li{padding:26px 24px;border-right:1px solid var(--garis)}
+.fakta li:last-child{border-right:0}
+.fakta strong{display:block;font-size:21px;letter-spacing:-.015em;margin-bottom:4px}
+.fakta span{color:var(--redup);font-size:14.5px;line-height:1.45;display:block}
+
+/* seksi umum */
+section{position:relative}
+.judul-seksi{text-align:center;margin:0 auto 56px;max-width:760px;padding:0 24px}
+.judul-seksi h2{font-size:clamp(32px,5vw,56px);line-height:1.07;letter-spacing:-.03em;margin:0 0 14px;font-weight:700}
+.judul-seksi p{font-size:clamp(18px,2vw,22px);color:var(--redup);margin:0;line-height:1.4}
+
+/* alur tiga langkah */
+.alur{padding:96px 0;background:var(--latar2)}
+.langkah{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.langkah article{background:var(--kartu);border:1px solid var(--garis);border-radius:22px;padding:30px 28px 28px}
+.nomor{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--aksen) 14%,transparent);color:var(--aksen);font-weight:700;margin-bottom:18px}
+.langkah h3{font-size:24px;letter-spacing:-.02em;margin:0 0 8px}
+.langkah p{margin:0;color:var(--redup);font-size:16px}
+.langkah svg{width:100%;height:auto;margin-top:22px;color:var(--aksen)}
+
+/* blok fitur */
+.fitur{padding:110px 0}
+.fitur.alt{background:var(--latar2)}
+.fitur .lebar{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:center}
+.fitur.balik .lebar{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.fitur.balik .teks{order:2}
+.fitur h2{text-wrap:balance;overflow-wrap:break-word;hyphens:auto;font-size:clamp(28px,3.5vw,42px);line-height:1.1;letter-spacing:-.028em;margin:0 0 16px;font-weight:700}
+.fitur .teks>p{color:var(--redup);font-size:19px;line-height:1.5;margin:0 0 22px}
+.fitur ul.poin{list-style:none;margin:0;padding:0}
+.fitur ul.poin li{position:relative;padding-left:32px;margin:0 0 12px;font-size:16.5px;line-height:1.5}
+.fitur ul.poin li::before{content:"";position:absolute;left:0;top:3px;width:20px;height:20px;border-radius:50%;background:var(--aksen) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.catatan-gambar{margin:14px 0 0;font-size:13px;color:var(--redup);text-align:center}
+.legenda{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 0;font-size:14px;color:var(--redup)}
+.legenda span{display:inline-flex;align-items:center;gap:7px}.legenda i{width:12px;height:12px;border-radius:4px}
+
+/* bento */
+.bento{padding:110px 0}
+.kisi{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.sel{background:var(--kartu);border:1px solid var(--garis);border-radius:24px;padding:28px;overflow:hidden}
+.sel.l3{grid-column:span 3}.sel.l2{grid-column:span 2}.sel.l4{grid-column:span 4}
+.sel h3{font-size:21px;letter-spacing:-.015em;margin:14px 0 6px}
+.sel p{margin:0;color:var(--redup);font-size:15.5px;line-height:1.5}
+.ik{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--aksen) 13%,transparent);color:var(--aksen)}
+.ik svg{width:24px;height:24px}
+.sel .gbr{margin:22px -28px -28px;border-top:1px solid var(--garis)}
+
+/* revit */
+.revit{padding:110px 0;background:var(--latar2)}
+.revit .kartu-revit{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--garis);border-radius:28px;overflow:hidden;background:var(--kartu)}
+.revit .kiri{padding:48px 44px}
+.revit .kanan{padding:48px 44px;background:color-mix(in srgb,var(--aksen) 6%,var(--kartu));border-left:1px solid var(--garis);display:flex;flex-direction:column;justify-content:center;gap:12px}
+.revit h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.025em;margin:0 0 12px;line-height:1.1}
+.revit p{color:var(--redup);margin:0 0 16px}
+.baris-tombol{display:flex;gap:10px;flex-wrap:wrap}
+.tautan{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--garis);border-radius:999px;background:var(--kartu);color:var(--aksen);font-size:15.5px;font-weight:500}
+.tautan[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.tautan:hover{border-color:var(--aksen)}
+
+/* faq */
+.faq{padding:110px 0}
+details{border-top:1px solid var(--garis);padding:0}
+details:last-of-type{border-bottom:1px solid var(--garis)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:19px;font-weight:600;letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;font-weight:300;color:var(--redup);transition:transform .2s ease}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 22px;color:var(--redup);font-size:16.5px;line-height:1.6;max-width:62ch}
+
+/* unduh tenang */
+.unduh{padding:96px 0 110px;background:var(--latar2);text-align:center}
+.unduh h2{font-size:clamp(30px,4.4vw,48px);letter-spacing:-.03em;margin:0 0 10px;line-height:1.08}
+.unduh .sub{font-size:19px;margin-bottom:28px}
+.tombol{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 28px;border-radius:999px;background:var(--aksen);color:var(--aksen-teks);font-size:17px;font-weight:600;transition:transform .12s ease}
+.tombol:active{transform:scale(.96)}
+.tombol[aria-disabled="true"]{opacity:.55;pointer-events:none}
+.info{margin:16px 0 0;color:var(--redup);font-size:14px;min-height:21px}
+.syarat{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:48px auto 0;max-width:880px;text-align:left}
+.syarat div{background:var(--kartu);border:1px solid var(--garis);border-radius:18px;padding:20px 22px;font-size:14.5px;color:var(--redup);line-height:1.5}
+.syarat b{display:block;color:var(--teks);font-size:15.5px;margin-bottom:4px}
+footer{padding:40px 0 56px;color:var(--redup);font-size:13px}
+footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* gerak masuk (hanya bila JS aktif dan gerak tidak dikurangi) */
+.js .muncul{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .muncul.tampak{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .muncul{opacity:1;transform:none;transition:none}.tombol,summary::after{transition:none}.utama{transform:none}}
+
+@media (max-width:900px){
+  nav.atas ul li:not(:last-child){display:none}
+  .fakta ul{grid-template-columns:repeat(2,1fr)}.fakta li:nth-child(2){border-right:0}.fakta li:nth-child(-n+2){border-bottom:1px solid var(--garis)}
+  .langkah{grid-template-columns:1fr}
+  .fitur .lebar,.fitur.balik .lebar{grid-template-columns:1fr;gap:36px}.fitur.balik .teks{order:0}
+  .kisi{grid-template-columns:1fr 1fr}.sel.l3,.sel.l4,.sel.l2{grid-column:span 2}
+  .revit .kartu-revit{grid-template-columns:1fr}.revit .kanan{border-left:0;border-top:1px solid var(--garis)}
+  .syarat{grid-template-columns:1fr}
+  .melayang{display:none}.fakta{padding-top:64px}.utama{transform:none}
+}
+@media (max-width:560px){.hero{padding-top:56px}.fitur,.alur,.bento,.revit,.faq{padding:72px 0}.revit .kiri,.revit .kanan{padding:32px 24px}.sel{padding:22px}.sel .gbr{margin:18px -22px -22px}}
+</style>
+</head>
+<body>
+<nav class="atas" aria-label="Utama">
+  <div class="lebar">
+    <a class="merek" href="#atas"><span class="lencana" aria-hidden="true">K</span>Kuantra</a>
+    <ul>
+      <li><a href="#alur">Cara kerja</a></li>
+      <li><a href="#fitur">Fitur</a></li>
+      <li><a href="#revit">Revit</a></li>
+      <li><a href="#faq">Tanya jawab</a></li>
+      <li><a class="nav-unduh" href="#unduh">Unduh</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="atas">
+  <p class="eyebrow">Kuantitas struktur beton</p>
+  <h1>Setiap angka BOQ, <em>bisa ditelusuri.</em></h1>
+  <p class="sub">Kuantra menghitung beton, bekisting, dan pembesian dari model Revit atau gambar Anda sendiri, dengan dasar ukur Volume Bersih Terpasang.</p>
+  <p class="hero-meta">Gratis untuk Windows. <a href="#alur">Lihat cara kerjanya</a></p>
+  <div class="panggung">
+    <figure class="jendela utama" style="margin:0"><img src="gambar/tiga-d-progres.png" width="1280" height="800" alt="Kuantra menampilkan model 3D gedung dengan elemen berwarna menurut progres pekerjaan: hijau selesai, biru muda sebagian, abu-abu belum mulai"></figure>
+    <figure class="jendela melayang kiri" style="margin:0" aria-hidden="true"><img src="gambar/progres.png" width="1280" height="800" alt="" loading="lazy"></figure>
+    <figure class="jendela melayang kanan" style="margin:0" aria-hidden="true"><img src="gambar/laporan.png" width="1280" height="800" alt="" loading="lazy"></figure>
+    <div class="pudar-bawah" aria-hidden="true"></div>
+  </div>
+</header>
+
+<main>
+<section class="fakta" aria-label="Ringkasan">
+  <div class="lebar"><ul>
+    <li class="muncul"><strong>Volume Bersih Terpasang</strong><span>Dasar ukur yang konsisten: irisan antar elemen tidak dihitung dua kali.</span></li>
+    <li class="muncul"><strong>SNI 2847 dan 2052</strong><span>Detailing yang tidak tertulis di gambar dilengkapi dari SNI dan dapat Anda timpa.</span></li>
+    <li class="muncul"><strong>Bekerja offline</strong><span>Proyek dan hitungan tersimpan di komputer Anda, bukan di server.</span></li>
+    <li class="muncul"><strong>Gratis</strong><span>Freeware untuk Windows 10 dan 11, tanpa akun dan tanpa langganan.</span></li>
+  </ul></div>
+</section>
+
+<section class="alur" id="alur">
+  <div class="judul-seksi muncul"><h2>Dari model ke laporan, tiga langkah.</h2><p>Tidak perlu menggambar ulang yang sudah ada di Revit, dan tidak perlu menyalin angka ke Excel.</p></div>
+  <div class="lebar langkah">
+    <article class="muncul"><span class="nomor">1</span><h3>Impor</h3><p>Ekspor model Revit dengan add-in, atau gambar elemen langsung di denah grid. Elemen yang tidak terbaca dilaporkan beserta alasannya.</p>
+      <svg viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="14" width="62" height="62" rx="10"/><path d="M30 60V36l16-10 16 10v24M38 60V46h16v14"/><path d="M92 45h56m-12-12 12 12-12 12"/><rect x="164" y="14" width="62" height="62" rx="10"/><path d="M180 34h30M180 46h30M180 58h18"/></svg></article>
+    <article class="muncul"><span class="nomor">2</span><h3>Hitung</h3><p>Isi tipe sekali: dimensi, mutu, dan pembesian utama. Sisanya otomatis, terlihat, dan bisa diubah. Tekan F9.</p>
+      <svg viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 70h192"/><rect x="40" y="38" width="26" height="32" rx="4"/><rect x="82" y="24" width="26" height="46" rx="4"/><rect x="124" y="46" width="26" height="24" rx="4"/><rect x="166" y="16" width="26" height="54" rx="4"/></svg></article>
+    <article class="muncul"><span class="nomor">3</span><h3>Laporan</h3><p>Ekspor Excel: rekap angka tetap untuk diserahkan, atau semua lembar dengan rumus hidup yang bisa ditelusuri sampai batang tulangan.</p>
+      <svg viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="62" y="8" width="116" height="74" rx="10"/><path d="M62 30h116M62 52h116M101 8v74M140 8v74"/></svg></article>
+  </div>
+</section>
+
+<section class="fitur" id="fitur">
+  <div class="lebar">
+    <div class="teks muncul">
+      <p class="eyebrow">Impor Revit</p>
+      <h2>Model Revit masuk, tanpa gambar ulang.</h2>
+      <p>Add-in membaca geometri beton dari model Anda dan menulis satu berkas. Kuantra menampilkan pratinjau pemetaan sebelum apa pun dimasukkan.</p>
+      <ul class="poin">
+        <li>Kolom, balok, pelat, dinding, pile cap, tiang bor, pondasi menerus, tangga, dan ramp.</li>
+        <li>Yang tidak terbaca (balok melengkung, material bukan beton) dicatat dengan alasannya.</li>
+        <li>Satu langkah Undo membatalkan seluruh impor. Model Revit tidak pernah diubah.</li>
+      </ul>
+    </div>
+    <div class="muncul"><figure class="jendela" style="margin:0"><img src="gambar/impor-pratinjau.png" width="1280" height="800" alt="Dialog pratinjau impor Revit berisi tabel elemen yang terbaca, jumlah yang dilewati, dan alasannya" loading="lazy"></figure><p class="catatan-gambar">Pratinjau impor dari model contoh (data sintetis).</p></div>
+  </div>
+</section>
+
+<section class="fitur alt balik">
+  <div class="lebar">
+    <div class="teks muncul">
+      <p class="eyebrow">Dapat ditelusuri</p>
+      <h2>Setiap total punya jejak yang jelas.</h2>
+      <p>Setiap total punya jejak: dari rekap per lantai, ke elemen, ke aturan yang dipakai. Tidak ada angka yang muncul tanpa asal.</p>
+      <ul class="poin">
+        <li>Hasil dipisah menjadi Galat (harus diperbaiki) dan Tinjau (perlu dilihat, tidak menghalangi).</li>
+        <li>Aturan pertemuan antar elemen terlihat dan dapat Anda ubah per titik temu.</li>
+        <li>Riwayat revisi dan pembanding hasil menunjukkan apa yang berubah antar revisi gambar.</li>
+      </ul>
+    </div>
+    <div class="muncul"><figure class="jendela" style="margin:0"><img src="gambar/hasil.png" width="1280" height="560" alt="Ruang kerja Hasil: rekap beton, bekisting, dan tulangan per lantai dan per jenis elemen, serta rasio tulangan" loading="lazy"></figure></div>
+  </div>
+</section>
+
+<section class="fitur">
+  <div class="lebar">
+    <div class="teks muncul">
+      <p class="eyebrow">Pembesian otomatis</p>
+      <h2>Isi yang ada di gambar. Sisanya otomatis.</h2>
+      <p>Pengguna cukup menyalin dimensi, jumlah atau jarak, dan diameter dari gambar kerja. Detail lain dilengkapi dari SNI, dengan alasan yang terlihat.</p>
+      <ul class="poin">
+        <li>Mutu beton dan mutu baja dipilih sekali di Asumsi proyek.</li>
+        <li>Templat Excel untuk tipe: isi di Excel, impor kembali, dan isian yang sudah ada tidak tertimpa sel kosong.</li>
+        <li>Setiap nilai bawaan dapat ditimpa dan ditandai sebagai nilai yang Anda ubah.</li>
+      </ul>
+    </div>
+    <div class="muncul"><figure class="jendela" style="margin:0"><img src="gambar/pustaka-tipe.png" width="1280" height="800" alt="Pustaka tipe: daftar tipe balok, kolom, dan pelat beserta dimensi dan tulangan" loading="lazy"></figure></div>
+  </div>
+</section>
+
+<section class="fitur alt balik">
+  <div class="lebar">
+    <div class="teks muncul">
+      <p class="eyebrow">Progres pekerjaan</p>
+      <h2>Dari total bangunan ke yang sudah terpasang.</h2>
+      <p>Tandai pembesian, bekisting, dan pengecoran per elemen, per lantai, atau sekaligus. Total tetap dari hasil hitung; progres membaginya menjadi terpasang dan sisa.</p>
+      <ul class="poin">
+        <li>Warna di denah dan 3D menunjukkan posisi pekerjaan sekilas.</li>
+        <li>Tutup periode untuk menyimpan opname. Excel memuat Sebelumnya, Periode ini, Sampai periode ini, dan Sisa.</li>
+        <li>Peringatan bila elemen yang sudah ditandai berubah di revisi.</li>
+      </ul>
+      <div class="legenda" aria-label="Arti warna"><span><i style="background:var(--abu)"></i>Belum mulai</span><span><i style="background:var(--biru-muda)"></i>Sebagian</span><span><i style="background:var(--hijau)"></i>Selesai</span></div>
+    </div>
+    <div class="muncul"><figure class="jendela" style="margin:0"><img src="gambar/progres.png" width="1280" height="800" alt="Dialog Progres pekerjaan: kartu persen per tahap dan tabel terpasang dari total per lantai" loading="lazy"></figure></div>
+  </div>
+</section>
+
+<section class="bento" aria-labelledby="j-bento">
+  <div class="judul-seksi muncul"><h2 id="j-bento">Lengkap untuk struktur beton.</h2><p>Dibuat oleh praktisi konstruksi, untuk pekerjaan estimasi sehari-hari.</p></div>
+  <div class="lebar kisi">
+    <div class="sel l4 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div><h3>Denah grid dan model 3D</h3><p>Gambar di denah dengan snap ke as, lihat hasilnya di 3D, dan warnai menurut jenis, mutu, tipe, status temuan, kepemilikan volume, atau progres.</p><div class="gbr"><img src="gambar/denah.png" width="1280" height="800" alt="Denah grid dengan kolom dan as bangunan" loading="lazy"></div></div>
+    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div><h3>Pemeriksaan bawaan</h3><p>Galat dan temuan tinjau muncul sebelum angka diserahkan, bukan sesudahnya.</p></div>
+    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M6 20V10M12 20V4M18 20v-7"/></svg></div><h3>Pondasi dan tangga</h3><p>Pile cap, borepile, pondasi menerus, tangga, dan ramp ikut dihitung lengkap dengan tulangannya.</p></div>
+    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Revisi terlacak</h3><p>Simpan riwayat revisi dan bandingkan hasil antar revisi gambar.</p></div>
+    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Terhubung ke Claude</h3><p>Pasang satu klik ke Claude Desktop agar proyek Anda dapat ditanyakan lewat alat bantu (MCP).</p></div>
+  </div>
+</section>
+
+<section class="revit" id="revit">
+  <div class="lebar">
+    <div class="kartu-revit muncul">
+      <div class="kiri">
+        <p class="eyebrow">Add-in Revit</p>
+        <h2>Ekspor langsung dari Revit.</h2>
+        <p>Tab Kuantra muncul di pita Revit. Satu klik menulis berkas model, tanpa mengubah apa pun di proyek Anda. Mendukung Revit 2025 dan 2026.</p>
+        <div class="baris-tombol">
+          <a id="revit2026" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Revit 2026</a>
+          <a id="revit2025" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Revit 2025</a>
+        </div>
+      </div>
+      <div class="kanan">
+        <ul class="poin" style="list-style:none;margin:0;padding:0;display:grid;gap:12px;font-size:16px;color:var(--teks)">
+          <li><b>1.</b> Ekstrak zip, klik kanan <b>Pasang.ps1</b>, pilih Run with PowerShell.</li>
+          <li><b>2.</b> Buka Revit, pilih tab <b>Kuantra</b>, klik <b>Ekspor ke Kuantra</b>.</li>
+          <li><b>3.</b> Di Kuantra: Impor, Revit. Periksa pratinjau, lalu masukkan.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fitur" aria-labelledby="j-excel">
+  <div class="lebar">
+    <div class="teks muncul">
+      <p class="eyebrow">Ekspor Excel</p>
+      <h2 id="j-excel">Dua paket, dua keperluan.</h2>
+      <p>Pilih ringkas untuk diserahkan, atau lengkap untuk ditelusuri.</p>
+      <ul class="poin">
+        <li><b>Rekap:</b> Rekap Lantai, BOQ Struktur, Pembesian Diameter, Daftar Bengkokan, dan Ringkasan, berisi angka tetap.</li>
+        <li><b>Rekap plus detail:</b> semua lembar dengan rumus hidup, dari rekap sampai rincian beton, bekisting, dan tulangan.</li>
+        <li>Lembar Progres dan Riwayat Progres ikut bila proyek memiliki data progres.</li>
+      </ul>
+    </div>
+    <div class="muncul"><figure class="jendela" style="margin:0"><img src="gambar/laporan.png" width="1280" height="800" alt="Dialog Rekap dan ekspor: ringkasan beton, tulangan, bekisting, dan pilihan paket ekspor Excel" loading="lazy"></figure></div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="judul-seksi muncul"><h2>Pertanyaan yang sering muncul.</h2></div>
+  <div class="sempit muncul">
+    <details><summary>Apakah Kuantra gratis?</summary><p>Ya. Kuantra adalah freeware untuk Windows 10 dan 11 (64-bit), tanpa akun dan tanpa langganan. Kode sumbernya tertutup, dan syarat pemakaian ada di EULA yang ditampilkan saat pemasangan.</p></details>
+    <details><summary>Apakah data proyek saya dikirim ke internet?</summary><p>Tidak. Proyek dan hitungan disimpan di komputer Anda. Kuantra hanya terhubung ke internet untuk memeriksa pembaruan aplikasi.</p></details>
+    <details><summary>Apakah add-in mengubah model Revit saya?</summary><p>Tidak. Add-in hanya membaca model (mode ReadOnly) dan menulis berkas JSON di lokasi yang Anda pilih.</p></details>
+    <details><summary>Apakah Kuantra menggantikan analisis atau desain struktur?</summary><p>Tidak. Kuantra menghitung kuantitas (beton, bekisting, tulangan) dari geometri dan detailing yang Anda tetapkan. Ia bukan alat analisis atau desain struktur, dan hasilnya tetap perlu ditinjau oleh estimator atau QS yang bertanggung jawab.</p></details>
+    <details><summary>Windows menampilkan peringatan saat memasang. Apakah aman?</summary><p>Pemasang belum bertanda tangan digital, sehingga Windows SmartScreen dapat menampilkan "Windows protected your PC". Pilih More info, lalu Run anyway. Unduhlah hanya dari halaman rilis resmi ini.</p></details>
+    <details><summary>Versi Revit apa yang didukung?</summary><p>Revit 2025 dan 2026. Versi lain belum didukung.</p></details>
+    <details><summary>Ke mana melaporkan masalah?</summary><p>Di Kuantra, buka menu Kuantra, Bantuan, Kirim masukan untuk menyusun paket diagnostik. Lalu laporkan di <a href="https://github.com/roob360/Kuantra-rilis/issues">halaman Issues</a> dan lampirkan paket itu.</p></details>
+  </div>
+</section>
+
+<section class="unduh" id="unduh">
+  <div class="lebar">
+    <h2 class="muncul">Pasang Kuantra.</h2>
+    <p class="sub muncul">Windows 10 atau 11, 64-bit.</p>
+    <a id="unduh-tombol" class="tombol muncul" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Memeriksa rilis terbaru…</a>
+    <p id="info" class="info" role="status"></p>
+    <div class="syarat muncul">
+      <div><b>Mulai cepat</b>Tekan F1 di Kuantra untuk panduan bergambar, atau buka proyek contoh dari layar awal.</div>
+      <div><b>Peringatan Windows</b>Bila muncul "Windows protected your PC", pilih More info lalu Run anyway.</div>
+      <div><b>Add-in Revit</b>Unduh zip sesuai versi Revit di bagian Add-in di atas.</div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="lebar"><span>Kuantra dibuat oleh Robi Gunawan.</span><span>Freeware, kode tertutup. Tangkapan layar memakai data contoh sintetis.</span></div></footer>
+<script src="unduh.js"></script>
+<script src="halaman.js"></script>
+</body>
+</html>
