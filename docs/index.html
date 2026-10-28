@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src https://api.github.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
 <meta name="color-scheme" content="light dark">
 <title>Kuantra: hitung kuantitas, lihat asal angkanya</title>
+<link rel="icon" href="gambar/logo.svg" type="image/svg+xml">
 <meta name="description" content="Aplikasi Windows untuk menghitung kuantitas BOQ dari model Revit atau gambar sendiri. Gratis, masih versi awal.">
 <style>
 :root{
@@ -32,7 +33,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 nav.atas{position:sticky;top:0;z-index:20;background:var(--kaca);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--garis)}
 nav.atas .lebar{display:flex;align-items:center;height:56px;gap:28px}
 .merek{display:flex;align-items:center;gap:10px;color:var(--teks);font-weight:600;font-size:18px;letter-spacing:-.01em}
-.lencana{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:var(--aksen);color:var(--aksen-teks);font-size:16px;font-weight:700}
+.lencana{display:grid;place-items:center;width:28px;height:28px}.lencana svg{width:100%;height:100%}
 nav.atas ul{display:flex;gap:26px;list-style:none;margin:0 0 0 auto;padding:0}
 nav.atas ul a{color:var(--teks);font-size:14px;opacity:.8}nav.atas ul a:hover{opacity:1}
 .nav-unduh{display:inline-flex;align-items:center;min-height:32px;padding:0 14px;border-radius:999px;background:var(--aksen);color:var(--aksen-teks)!important;font-size:13px;font-weight:600;opacity:1!important}
@@ -163,7 +164,7 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
 <body>
 <nav class="atas" aria-label="Utama">
   <div class="lebar">
-    <a class="merek" href="#atas"><span class="lencana" aria-hidden="true">K</span>Kuantra</a>
+    <a class="merek" href="#atas"><span class="lencana" aria-hidden="true"><svg viewBox="0 0 256 256" aria-hidden="true"><rect x="8" y="8" width="240" height="240" rx="52" fill="#1F5FBF"/><g stroke="#fff" stroke-opacity=".28" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 8"><path d="M62 30v196M194 30v196M30 62h196M30 194h196"/></g><g stroke="#fff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M90 62v132M168 62L90 132M118 112l56 82"/></g><circle cx="194" cy="62" r="15" fill="#F28C28"/></svg></span>Kuantra</a>
     <ul>
       <li><a href="#alur">Cara kerja</a></li>
       <li><a href="#fitur">Fitur</a></li>
@@ -294,15 +295,15 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
         <h2>Add-in Revit.</h2>
         <p>Setelah terpasang, tab Kuantra muncul di pita Revit. Untuk Revit 2025 dan 2026. Jujur saja: add-in ini baru dan belum dicoba pada banyak model, jadi bisa ada elemen yang gagal terbaca.</p>
         <div class="baris-tombol">
-          <a id="revit2026" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Revit 2026</a>
-          <a id="revit2025" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Revit 2025</a>
+          <a id="revit2026" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Zip Revit 2026</a>
+          <a id="revit2025" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Zip Revit 2025</a>
         </div>
       </div>
       <div class="kanan">
         <ul class="poin" style="list-style:none;margin:0;padding:0;display:grid;gap:12px;font-size:16px;color:var(--teks)">
-          <li><b>1.</b> Ekstrak zip, klik kanan <b>Pasang.ps1</b>, pilih Run with PowerShell.</li>
+          <li><b>1.</b> Di Kuantra: Impor, <b>Add-in Revit</b>, pilih versi Revit, tekan <b>Pasang</b>.</li>
           <li><b>2.</b> Buka Revit, pilih tab <b>Kuantra</b>, klik <b>Ekspor ke Kuantra</b>.</li>
-          <li><b>3.</b> Di Kuantra: Impor, Revit. Lihat pratinjau, lalu masukkan.</li>
+          <li><b>3.</b> Di Kuantra: Impor, Model Revit. Lihat pratinjau, lalu masukkan.</li>
         </ul>
       </div>
     </div>
@@ -361,7 +362,7 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
     <div class="syarat muncul">
       <div><b>Pertama kali</b>Buka proyek contoh dari layar awal, dan tekan F1 untuk panduan bergambar.</div>
       <div><b>Peringatan Windows</b>Kalau muncul "Windows protected your PC", klik More info lalu Run anyway.</div>
-      <div><b>Add-in Revit</b>Zip-nya ada di bagian Add-in Revit di atas, pilih sesuai versi Revit Anda.</div>
+      <div><b>Add-in Revit</b>Dipasang dari dalam Kuantra (Impor, Add-in Revit). Zip di bagian Add-in Revit adalah cadangan.</div>
     </div>
   </div>
 </section>
