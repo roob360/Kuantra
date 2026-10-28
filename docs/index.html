@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src https://api.github.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
 <meta name="color-scheme" content="light dark">
-<title>Kuantra: kuantitas struktur beton yang dapat ditelusuri</title>
-<meta name="description" content="Kuantra menghitung beton, bekisting, dan pembesian dari model Revit atau gambar Anda sendiri. Setiap angka dapat ditelusuri sampai ke elemen dan aturannya. Gratis untuk Windows.">
+<title>Kuantra: aplikasi kuantitas struktur beton</title>
+<meta name="description" content="Kuantra adalah aplikasi Windows untuk menghitung kuantitas beton, bekisting, dan pembesian dari model Revit atau gambar sendiri. Gratis, masih tahap awal.">
 <style>
 :root{
   --latar:#fbfbfd;--latar2:#f5f5f7;--kartu:#fff;--teks:#1d1d1f;--redup:#6e6e73;--garis:rgba(0,0,0,.1);
@@ -168,6 +168,7 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
       <li><a href="#alur">Cara kerja</a></li>
       <li><a href="#fitur">Fitur</a></li>
       <li><a href="#revit">Revit</a></li>
+      <li><a href="#batasan">Batasan</a></li>
       <li><a href="#faq">Tanya jawab</a></li>
       <li><a class="nav-unduh" href="#unduh">Unduh</a></li>
     </ul>
@@ -175,10 +176,10 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
 </nav>
 
 <header class="hero" id="atas">
-  <p class="eyebrow">Kuantitas struktur beton</p>
-  <h1>Setiap angka BOQ, <em>bisa ditelusuri.</em></h1>
-  <p class="sub">Kuantra menghitung beton, bekisting, dan pembesian dari model Revit atau gambar Anda sendiri, dengan dasar ukur Volume Bersih Terpasang.</p>
-  <p class="hero-meta">Gratis untuk Windows. <a href="#alur">Lihat cara kerjanya</a></p>
+  <p class="eyebrow">Versi awal untuk Windows</p>
+  <h1>Kuantitas struktur beton, <em>dengan jejak hitungan.</em></h1>
+  <p class="sub">Kuantra membantu menghitung beton, bekisting, dan pembesian dari model Revit atau gambar sendiri. Dibuat oleh seorang praktisi konstruksi, masih berkembang.</p>
+  <p class="hero-meta">Gratis. <a href="#alur">Lihat cara kerjanya</a> atau <a href="#batasan">baca batasannya</a></p>
   <div class="panggung">
     <figure class="jendela utama" style="margin:0"><img src="gambar/tiga-d-progres.png" width="1280" height="800" alt="Kuantra menampilkan model 3D gedung dengan elemen berwarna menurut progres pekerjaan: hijau selesai, biru muda sebagian, abu-abu belum mulai"></figure>
     <figure class="jendela melayang kiri" style="margin:0" aria-hidden="true"><img src="gambar/progres.png" width="1280" height="800" alt="" loading="lazy"></figure>
@@ -190,19 +191,19 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
 <main>
 <section class="fakta" aria-label="Ringkasan">
   <div class="lebar"><ul>
-    <li class="muncul"><strong>Volume Bersih Terpasang</strong><span>Dasar ukur yang konsisten: irisan antar elemen tidak dihitung dua kali.</span></li>
-    <li class="muncul"><strong>SNI 2847 dan 2052</strong><span>Detailing yang tidak tertulis di gambar dilengkapi dari SNI dan dapat Anda timpa.</span></li>
+    <li class="muncul"><strong>Volume Bersih Terpasang</strong><span>Dasar ukur yang dipakai: irisan antar elemen diselesaikan dengan aturan yang terlihat.</span></li>
+    <li class="muncul"><strong>Acuan SNI</strong><span>Detail yang tidak tertulis di gambar diusulkan dari SNI 2847:2019 dan SNI 2052:2017, dan dapat Anda ubah.</span></li>
     <li class="muncul"><strong>Bekerja offline</strong><span>Proyek dan hitungan tersimpan di komputer Anda, bukan di server.</span></li>
     <li class="muncul"><strong>Gratis</strong><span>Freeware untuk Windows 10 dan 11, tanpa akun dan tanpa langganan.</span></li>
   </ul></div>
 </section>
 
 <section class="alur" id="alur">
-  <div class="judul-seksi muncul"><h2>Dari model ke laporan, tiga langkah.</h2><p>Tidak perlu menggambar ulang yang sudah ada di Revit, dan tidak perlu menyalin angka ke Excel.</p></div>
+  <div class="judul-seksi muncul"><h2>Alur kerjanya tiga langkah.</h2><p>Dari model atau gambar, ke hitungan, ke laporan Excel.</p></div>
   <div class="lebar langkah">
     <article class="muncul"><span class="nomor">1</span><h3>Impor</h3><p>Ekspor model Revit dengan add-in, atau gambar elemen langsung di denah grid. Elemen yang tidak terbaca dilaporkan beserta alasannya.</p>
       <svg viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="14" width="62" height="62" rx="10"/><path d="M30 60V36l16-10 16 10v24M38 60V46h16v14"/><path d="M92 45h56m-12-12 12 12-12 12"/><rect x="164" y="14" width="62" height="62" rx="10"/><path d="M180 34h30M180 46h30M180 58h18"/></svg></article>
-    <article class="muncul"><span class="nomor">2</span><h3>Hitung</h3><p>Isi tipe sekali: dimensi, mutu, dan pembesian utama. Sisanya otomatis, terlihat, dan bisa diubah. Tekan F9.</p>
+    <article class="muncul"><span class="nomor">2</span><h3>Hitung</h3><p>Isi tipe sekali: dimensi, mutu, dan pembesian utama. Detail lain diusulkan otomatis, terlihat, dan bisa diubah. Tekan F9.</p>
       <svg viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 70h192"/><rect x="40" y="38" width="26" height="32" rx="4"/><rect x="82" y="24" width="26" height="46" rx="4"/><rect x="124" y="46" width="26" height="24" rx="4"/><rect x="166" y="16" width="26" height="54" rx="4"/></svg></article>
     <article class="muncul"><span class="nomor">3</span><h3>Laporan</h3><p>Ekspor Excel: rekap angka tetap untuk diserahkan, atau semua lembar dengan rumus hidup yang bisa ditelusuri sampai batang tulangan.</p>
       <svg viewBox="0 0 240 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="62" y="8" width="116" height="74" rx="10"/><path d="M62 30h116M62 52h116M101 8v74M140 8v74"/></svg></article>
@@ -213,12 +214,12 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   <div class="lebar">
     <div class="teks muncul">
       <p class="eyebrow">Impor Revit</p>
-      <h2>Model Revit masuk, tanpa gambar ulang.</h2>
+      <h2>Dari model Revit ke Kuantra.</h2>
       <p>Add-in membaca geometri beton dari model Anda dan menulis satu berkas. Kuantra menampilkan pratinjau pemetaan sebelum apa pun dimasukkan.</p>
       <ul class="poin">
         <li>Kolom, balok, pelat, dinding, pile cap, tiang bor, pondasi menerus, tangga, dan ramp.</li>
         <li>Yang tidak terbaca (balok melengkung, material bukan beton) dicatat dengan alasannya.</li>
-        <li>Satu langkah Undo membatalkan seluruh impor. Model Revit tidak pernah diubah.</li>
+        <li>Satu langkah Undo membatalkan seluruh impor. Add-in hanya membaca model Revit.</li>
       </ul>
     </div>
     <div class="muncul"><figure class="jendela" style="margin:0"><img src="gambar/impor-pratinjau.png" width="1280" height="800" alt="Dialog pratinjau impor Revit berisi tabel elemen yang terbaca, jumlah yang dilewati, dan alasannya" loading="lazy"></figure><p class="catatan-gambar">Pratinjau impor dari model contoh (data sintetis).</p></div>
@@ -229,8 +230,8 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   <div class="lebar">
     <div class="teks muncul">
       <p class="eyebrow">Dapat ditelusuri</p>
-      <h2>Setiap total punya jejak yang jelas.</h2>
-      <p>Setiap total punya jejak: dari rekap per lantai, ke elemen, ke aturan yang dipakai. Tidak ada angka yang muncul tanpa asal.</p>
+      <h2>Total yang bisa ditelusuri.</h2>
+      <p>Total dapat ditelusuri dari rekap per lantai ke elemen dan aturan yang dipakai, supaya Anda bisa memeriksanya sendiri.</p>
       <ul class="poin">
         <li>Hasil dipisah menjadi Galat (harus diperbaiki) dan Tinjau (perlu dilihat, tidak menghalangi).</li>
         <li>Aturan pertemuan antar elemen terlihat dan dapat Anda ubah per titik temu.</li>
@@ -245,12 +246,12 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   <div class="lebar">
     <div class="teks muncul">
       <p class="eyebrow">Pembesian otomatis</p>
-      <h2>Isi yang ada di gambar. Sisanya otomatis.</h2>
-      <p>Pengguna cukup menyalin dimensi, jumlah atau jarak, dan diameter dari gambar kerja. Detail lain dilengkapi dari SNI, dengan alasan yang terlihat.</p>
+      <h2>Isi yang ada di gambar, sisanya diusulkan.</h2>
+      <p>Anda menyalin dimensi, jumlah atau jarak, dan diameter dari gambar kerja. Detail lain diusulkan dari SNI dengan alasan yang terlihat. Periksa usulan itu sebelum dipakai.</p>
       <ul class="poin">
         <li>Mutu beton dan mutu baja dipilih sekali di Asumsi proyek.</li>
         <li>Templat Excel untuk tipe: isi di Excel, impor kembali, dan isian yang sudah ada tidak tertimpa sel kosong.</li>
-        <li>Setiap nilai bawaan dapat ditimpa dan ditandai sebagai nilai yang Anda ubah.</li>
+        <li>Setiap nilai usulan dapat Anda ubah dan ditandai sebagai nilai yang Anda ubah.</li>
       </ul>
     </div>
     <div class="muncul"><figure class="jendela" style="margin:0"><img src="gambar/pustaka-tipe.png" width="1280" height="800" alt="Pustaka tipe: daftar tipe balok, kolom, dan pelat beserta dimensi dan tulangan" loading="lazy"></figure></div>
@@ -261,8 +262,8 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   <div class="lebar">
     <div class="teks muncul">
       <p class="eyebrow">Progres pekerjaan</p>
-      <h2>Dari total bangunan ke yang sudah terpasang.</h2>
-      <p>Tandai pembesian, bekisting, dan pengecoran per elemen, per lantai, atau sekaligus. Total tetap dari hasil hitung; progres membaginya menjadi terpasang dan sisa.</p>
+      <h2>Menandai pekerjaan yang sudah selesai.</h2>
+      <p>Tandai pembesian, bekisting, dan pengecoran per elemen, per lantai, atau sekaligus. Total tetap dari hasil hitung; progres membaginya menjadi terpasang dan sisa. Fitur ini masih baru.</p>
       <ul class="poin">
         <li>Warna di denah dan 3D menunjukkan posisi pekerjaan sekilas.</li>
         <li>Tutup periode untuk menyimpan opname. Excel memuat Sebelumnya, Periode ini, Sampai periode ini, dan Sisa.</li>
@@ -275,11 +276,11 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
 </section>
 
 <section class="bento" aria-labelledby="j-bento">
-  <div class="judul-seksi muncul"><h2 id="j-bento">Lengkap untuk struktur beton.</h2><p>Dibuat oleh praktisi konstruksi, untuk pekerjaan estimasi sehari-hari.</p></div>
+  <div class="judul-seksi muncul"><h2 id="j-bento">Yang sudah tersedia.</h2><p>Daftar kemampuan saat ini, bukan janji kelengkapan.</p></div>
   <div class="lebar kisi">
     <div class="sel l4 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div><h3>Denah grid dan model 3D</h3><p>Gambar di denah dengan snap ke as, lihat hasilnya di 3D, dan warnai menurut jenis, mutu, tipe, status temuan, kepemilikan volume, atau progres.</p><div class="gbr"><img src="gambar/denah.png" width="1280" height="800" alt="Denah grid dengan kolom dan as bangunan" loading="lazy"></div></div>
-    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div><h3>Pemeriksaan bawaan</h3><p>Galat dan temuan tinjau muncul sebelum angka diserahkan, bukan sesudahnya.</p></div>
-    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M6 20V10M12 20V4M18 20v-7"/></svg></div><h3>Pondasi dan tangga</h3><p>Pile cap, borepile, pondasi menerus, tangga, dan ramp ikut dihitung lengkap dengan tulangannya.</p></div>
+    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div><h3>Pemeriksaan bawaan</h3><p>Galat dan temuan tinjau ditampilkan di aplikasi supaya Anda dapat memeriksa sebelum angka dipakai.</p></div>
+    <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M6 20V10M12 20V4M18 20v-7"/></svg></div><h3>Pondasi dan tangga</h3><p>Pile cap, borepile, pondasi menerus, tangga, dan ramp ikut dihitung, termasuk tulangannya.</p></div>
     <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Revisi terlacak</h3><p>Simpan riwayat revisi dan bandingkan hasil antar revisi gambar.</p></div>
     <div class="sel l2 muncul"><div class="ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Terhubung ke Claude</h3><p>Pasang satu klik ke Claude Desktop agar proyek Anda dapat ditanyakan lewat alat bantu (MCP).</p></div>
   </div>
@@ -290,8 +291,8 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
     <div class="kartu-revit muncul">
       <div class="kiri">
         <p class="eyebrow">Add-in Revit</p>
-        <h2>Ekspor langsung dari Revit.</h2>
-        <p>Tab Kuantra muncul di pita Revit. Satu klik menulis berkas model, tanpa mengubah apa pun di proyek Anda. Mendukung Revit 2025 dan 2026.</p>
+        <h2>Add-in Revit, tahap uji.</h2>
+        <p>Tab Kuantra muncul di pita Revit dan menulis berkas model tanpa mengubah proyek Anda. Mendukung Revit 2025 dan 2026. Add-in ini baru dirilis dan belum banyak dicoba pada berbagai model, jadi sebagian elemen mungkin belum terbaca.</p>
         <div class="baris-tombol">
           <a id="revit2026" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Revit 2026</a>
           <a id="revit2025" class="tautan" href="https://github.com/roob360/Kuantra-rilis/releases/latest" aria-disabled="true">Revit 2025</a>
@@ -324,12 +325,25 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
   </div>
 </section>
 
+<section class="fitur alt" id="batasan" style="padding:96px 0">
+  <div class="sempit">
+    <div class="judul-seksi muncul" style="padding:0;margin-bottom:32px"><h2 style="font-size:clamp(28px,4vw,40px)">Batasan yang perlu Anda ketahui.</h2><p>Supaya Anda tahu apa yang bisa diharapkan.</p></div>
+    <ul class="poin muncul">
+      <li><b>Masih tahap awal.</b> Mesin hitung diuji dengan lebih dari seribu uji otomatis, tetapi validasi pada proyek nyata masih terbatas. Untuk proyek pertama Anda, bandingkan hasilnya dengan hitungan manual dan laporkan bila ada selisih.</li>
+      <li><b>Bukan alat desain.</b> Kuantra menghitung kuantitas. Ia tidak menganalisis atau mendesain struktur, dan hasilnya tetap perlu ditinjau orang yang bertanggung jawab.</li>
+      <li><b>Belum didukung:</b> balok dan dinding melengkung, serta tulangan yang sudah dimodelkan di Revit (add-in hanya membaca geometri beton).</li>
+      <li><b>Platform:</b> Windows 10 dan 11 (64-bit), Revit 2025 dan 2026.</li>
+    </ul>
+  </div>
+</section>
+
 <section class="faq" id="faq">
   <div class="judul-seksi muncul"><h2>Pertanyaan yang sering muncul.</h2></div>
   <div class="sempit muncul">
     <details><summary>Apakah Kuantra gratis?</summary><p>Ya. Kuantra adalah freeware untuk Windows 10 dan 11 (64-bit), tanpa akun dan tanpa langganan. Kode sumbernya tertutup, dan syarat pemakaian ada di EULA yang ditampilkan saat pemasangan.</p></details>
     <details><summary>Apakah data proyek saya dikirim ke internet?</summary><p>Tidak. Proyek dan hitungan disimpan di komputer Anda. Kuantra hanya terhubung ke internet untuk memeriksa pembaruan aplikasi.</p></details>
     <details><summary>Apakah add-in mengubah model Revit saya?</summary><p>Tidak. Add-in hanya membaca model (mode ReadOnly) dan menulis berkas JSON di lokasi yang Anda pilih.</p></details>
+    <details><summary>Seberapa teruji hasil hitungannya?</summary><p>Mesin hitung punya lebih dari seribu uji otomatis, sebagian berupa hitungan manual independen. Namun pemakaian pada proyek nyata masih sedikit. Anggap hasilnya sebagai alat bantu yang perlu Anda periksa, dan bandingkan dengan hitungan Anda sendiri.</p></details>
     <details><summary>Apakah Kuantra menggantikan analisis atau desain struktur?</summary><p>Tidak. Kuantra menghitung kuantitas (beton, bekisting, tulangan) dari geometri dan detailing yang Anda tetapkan. Ia bukan alat analisis atau desain struktur, dan hasilnya tetap perlu ditinjau oleh estimator atau QS yang bertanggung jawab.</p></details>
     <details><summary>Windows menampilkan peringatan saat memasang. Apakah aman?</summary><p>Pemasang belum bertanda tangan digital, sehingga Windows SmartScreen dapat menampilkan "Windows protected your PC". Pilih More info, lalu Run anyway. Unduhlah hanya dari halaman rilis resmi ini.</p></details>
     <details><summary>Versi Revit apa yang didukung?</summary><p>Revit 2025 dan 2026. Versi lain belum didukung.</p></details>
@@ -352,7 +366,7 @@ footer .lebar{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap
 </section>
 </main>
 
-<footer><div class="lebar"><span>Kuantra dibuat oleh Robi Gunawan.</span><span>Freeware, kode tertutup. Tangkapan layar memakai data contoh sintetis.</span></div></footer>
+<footer><div class="lebar"><span>Kuantra dibuat oleh Robi Gunawan.</span><span>Freeware, kode tertutup. Tangkapan layar memakai data contoh sintetis. Hasil hitungan perlu diperiksa pengguna.</span></div></footer>
 <script src="unduh.js"></script>
 <script src="halaman.js"></script>
 </body>
