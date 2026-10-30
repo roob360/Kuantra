@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://roob360.github.io/kuantra-rilis/sitemap.xml
