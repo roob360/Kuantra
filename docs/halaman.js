@@ -5,7 +5,7 @@ const DONASI_URL = 'https://saweria.co/roob';
 
 (async () => {
   const $ = (id) => document.getElementById(id);
-  if (/^https:\/\//.test(DONASI_URL)) { const d = $('donasi'); d.href = DONASI_URL; d.hidden = false; }
+  if (/^https:\/\//.test(DONASI_URL)) { for (const d of [$('donasi'), ...document.querySelectorAll('[data-donasi]')]) { d.href = DONASI_URL; d.hidden = false; } }
   // Gerak masuk saat bagian terlihat, kecuali pengguna meminta gerak dikurangi.
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.documentElement.classList.add('js');

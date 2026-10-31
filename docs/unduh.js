@@ -1,6 +1,6 @@
 // Logika halaman unduh Kuantra: membaca rilis terbaru dari GitHub (hanya rilis resmi; Pre-release tidak dikembalikan endpoint /releases/latest)
 // dan memilih berkas menurut pola nama. Murni dan dapat diuji di Node (tests/situsUnduh.test.js).
-const REPO = 'roob360/Kuantra-rilis';
+const REPO = 'roob360/Kuantra';
 const POLA = {
   pemasang: /^Kuantra-Setup-.+\.exe$/i,
   revit2025: /^Kuantra-Revit-.+-Revit2025\.zip$/i,
